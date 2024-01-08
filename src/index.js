@@ -4,6 +4,7 @@ import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
+import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import router from "./router/index.js";
 
 const app = express();
@@ -27,5 +28,8 @@ app.use("/api", router);
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => res.json(`Server listening on port ${port}!`));
+
+app.use(errorHandler);
+app.use(notFound);
 
 app.listen(port, () => console.log(`Server listening on port ${port}!`));
